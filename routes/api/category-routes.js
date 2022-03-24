@@ -6,12 +6,62 @@ const { Category, Product } = require('../../models');
 router.get('/', (req, res) => {
   // find all categories
   // be sure to include its associated Products
+  // see just tech dashboard routes
+  Category.findAll(
+    {
+    include: [
+      {
+      model: Product,
+      attributes: [
+        'id', 
+        'product_name', 
+        'price', 
+        'stock'
+      ],
+    }]
+  })
+  .then(data => res.json(data))
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
 });
 
 router.get('/:id', (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
+  // see just tech dashboard routes
+  Category.findAll(
+    {
+    where: {
+      id: req.params.id
+    },
+    include: [
+      {
+      model: Product,
+      attributes: [
+        'id',
+        'product_name',
+        'price',
+        'stock'
+      ],
+    }]
+  })
+  .then(data => {
+    if(!data) {
+      res.status(404).send();
+      return;
+    }
+    res.json(data);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
 });
+
+
+
 
 router.post('/', (req, res) => {
   // create a new category
