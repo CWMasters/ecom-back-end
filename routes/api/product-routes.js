@@ -44,7 +44,7 @@ router.get('/:id', (req, res) => {
         },
         {
           model: Tag,
-          attributes: ['id', 'category_name']
+          attributes: ['id', 'tag_name']
         }]
   })
   .then(prodData => res.json(prodData))
